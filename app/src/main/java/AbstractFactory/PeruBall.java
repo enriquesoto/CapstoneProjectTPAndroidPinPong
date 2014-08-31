@@ -43,15 +43,10 @@ public class PeruBall extends View implements AbstractBall{
         mPainter.setColor(Color.rgb(255,0,0));
         mPainter.setStrokeWidth(4);
 
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        int height = (int) (metrics.heightPixels - metrics.widthPixels*(double)PROPORCION);
-        int width = metrics.widthPixels;
-
         this.xPos = widthDisplay/2;
         this.yPos = heightDisplay/2;
 
-        Log.i("Peruball","ancho :" +width + " alto: " +height);
-        Log.i("XD","centro x:" +this.xPos + " y: " +this.yPos);
+
 
     }
     @Override
@@ -60,5 +55,6 @@ public class PeruBall extends View implements AbstractBall{
         //canvas.drawLine(xPos,0,xPos,mHeightDisplay,mPainter);
         //canvas.drawLine(0,yPos,mWidthDisplay,yPos,mPainter);
     }
+
 
 }

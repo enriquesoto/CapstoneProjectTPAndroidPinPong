@@ -15,6 +15,7 @@ public class BrasilVest extends View implements AbstractVest {
     private Bitmap mBitmap;
     private float xPos,yPos;
     private final Paint mPainter= new Paint();
+    private boolean isLocal;
 
 
     public BrasilVest(Context context,int widthDisplay,int heightDisplay){
@@ -27,5 +28,18 @@ public class BrasilVest extends View implements AbstractVest {
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         canvas.drawBitmap(mBitmap, xPos, yPos, mPainter);
+    }
+
+    @Override
+    public void setLocale(boolean value) {
+        this.isLocal = value;
+    }
+    @Override
+    public boolean intersects(float x, float y) {
+
+        if(x>xPos && x<xPos+mBitmap.getWidth() && y>yPos && y<yPos+mBitmap.getWidth())
+            return true;
+
+        return false;
     }
 }

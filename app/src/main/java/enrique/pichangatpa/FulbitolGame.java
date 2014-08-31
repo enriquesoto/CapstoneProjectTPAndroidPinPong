@@ -25,11 +25,16 @@ public class FulbitolGame {
                                   RelativeLayout mFrame, int widthDisplay, int heightDisplay){
 
         AbstractBall aBall = stadiumFactory.createBall(aContex,widthDisplay,heightDisplay);
-        AbstractVest aVest = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay);
+        AbstractVest aVestLocale = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay);
         AbstractField aField = stadiumFactory.createField(aContex,widthDisplay,heightDisplay);
+        aVestLocale.setLocale(true);
+        AbstractVest aVestVisitor = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay);
+        aVestVisitor.setLocale(false);
+
 
         mFrame.addView((View) aField);
-        mFrame.addView((View) aVest);
+        mFrame.addView((View) aVestLocale);
+        mFrame.addView((View) aVestVisitor);
         mFrame.addView((View) aBall);
     }
 }

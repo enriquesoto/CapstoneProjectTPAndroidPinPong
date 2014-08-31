@@ -4,8 +4,11 @@ import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import AbstractFactory.AbstractStadiumFactory;
@@ -19,6 +22,9 @@ public class MainFutlbolActivity extends ActionBarActivity {
     RelativeLayout mFrame;
     private int widthDisplay;
     private int heightDisplay;
+    // Gesture Detector
+    private GestureDetector mGestureDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,24 @@ public class MainFutlbolActivity extends ActionBarActivity {
         FulbitolGame aFulbitolGame = new FulbitolGame(getApplicationContext());
         aFulbitolGame.createFulbitoGame(new PeruStadiumFactory(),mFrame,widthDisplay,heightDisplay);
         //Log.i("W-H","resume" +widthDisplay+"-"+heightDisplay);
+
+    }
+
+    private void setupGestureDetector() {
+
+        mGestureDetector = new GestureDetector( this, new GestureDetector.SimpleOnGestureListener() {
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+                for (int i=0;i<mFrame.getChildCount();i++){
+                    View tmpView =  mFrame.getChildAt(i);
+                    Log.i("xdxd","xdxd");
+
+                }
+                return true;
+            }
+
+        });
     }
 
     private void updateSizeInfo() {
@@ -82,6 +106,14 @@ public class MainFutlbolActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
            super.onResume();
+        setupGestureDetector();
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        // TODO - delegate the touch to the gestureDetector
+
+        return mGestureDetector.onTouchEvent(event);
 
     }
 }
