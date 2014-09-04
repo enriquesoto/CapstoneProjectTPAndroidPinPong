@@ -10,16 +10,16 @@ import enrique.pichangatpa.R;
 /**
  * Created by enrique on 30/08/14.
  */
-public class BrasilVest extends View implements AbstractVest {
+public class BrasilVest extends AbstractVest {
 
-    private Bitmap mBitmap;
+
     private float xPos,yPos;
     private final Paint mPainter= new Paint();
     private boolean isLocal;
 
 
     public BrasilVest(Context context,int widthDisplay,int heightDisplay){
-        super(context);
+        super(context,widthDisplay,heightDisplay);
 
         mBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.brasilvest);
 
@@ -30,16 +30,4 @@ public class BrasilVest extends View implements AbstractVest {
         canvas.drawBitmap(mBitmap, xPos, yPos, mPainter);
     }
 
-    @Override
-    public void setLocale(boolean value) {
-        this.isLocal = value;
-    }
-    @Override
-    public boolean intersects(float x, float y) {
-
-        if(x>xPos && x<xPos+mBitmap.getWidth() && y>yPos && y<yPos+mBitmap.getWidth())
-            return true;
-
-        return false;
-    }
 }

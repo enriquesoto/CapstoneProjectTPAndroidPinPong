@@ -21,39 +21,28 @@ import enrique.pichangatpa.R;
 /**
  * Created by enrique on 30/08/14.
  */
-public class PeruBall extends View implements AbstractBall{
+public class PeruBall extends AbstractBall{
 
     private Resources mImage;
-    private Bitmap mBitmap;
-    private float xPos,yPos;
-    private final Paint mPainter= new Paint();
-    private int mHeightDisplay;
-    private int mWidthDisplay;
 
-    private static final double PROPORCION=0.18;
+
+    private final Paint mPainter= new Paint();
 
 
     public PeruBall(Context context,int widthDisplay,int heightDisplay) {
-        super(context);
-        this.mImage = mImage;
-        //Drawable mDrawable = getResources().getDrawable(android.R.drawable)
-        mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.balonperu);
-        this.mHeightDisplay = heightDisplay;
-        this.mWidthDisplay= widthDisplay;
+        super(context,widthDisplay,heightDisplay);
         mPainter.setColor(Color.rgb(255,0,0));
-        mPainter.setStrokeWidth(4);
-
-        this.xPos = widthDisplay/2;
-        this.yPos = heightDisplay/2;
-
-
+        mPainter.setStrokeWidth(5);
+        mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.balonperu);
 
     }
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         canvas.drawBitmap(mBitmap,xPos-mBitmap.getWidth()/2,yPos-mBitmap.getHeight()/2,mPainter);
-        //canvas.drawLine(xPos,0,xPos,mHeightDisplay,mPainter);
-        //canvas.drawLine(0,yPos,mWidthDisplay,yPos,mPainter);
+        canvas.drawLine(mWidthDisplay/2,0,mWidthDisplay/2,mHeightDisplay,mPainter);
+        canvas.drawLine(0,mHeightDisplay/2,mWidthDisplay,mHeightDisplay/2,mPainter);
+        canvas.drawLine(xPos,0,xPos,mHeightDisplay,mPainter);
+        canvas.drawLine(0,yPos,mWidthDisplay,yPos,mPainter);
     }
 
 

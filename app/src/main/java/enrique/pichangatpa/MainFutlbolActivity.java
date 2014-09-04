@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import AbstractFactory.AbstractStadiumFactory;
+import AbstractFactory.AbstractVest;
 import AbstractFactory.BrasilField;
 import AbstractFactory.BrasilStadiumFactory;
 import AbstractFactory.PeruStadiumFactory;
@@ -19,7 +20,13 @@ import AbstractFactory.PeruStadiumFactory;
 
 public class MainFutlbolActivity extends ActionBarActivity {
 
-    RelativeLayout mFrame;
+    public static RelativeLayout mFrame;
+
+    public final  String DEBUG_TAG = "MAINFULTBOLACTIVITYDEBUG";
+    public static final int INDEXLOCALPLAYER = 1;
+    public static final int INDEXVISITORPLAYER = 2 ;
+
+
     private int widthDisplay;
     private int heightDisplay;
     // Gesture Detector
@@ -84,13 +91,33 @@ public class MainFutlbolActivity extends ActionBarActivity {
 
         mGestureDetector = new GestureDetector( this, new GestureDetector.SimpleOnGestureListener() {
 
-            @Override
-            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
-                for (int i=0;i<mFrame.getChildCount();i++){
-                    View tmpView =  mFrame.getChildAt(i);
-                    Log.i("xdxd","xdxd");
 
-                }
+
+            /* @Override
+                        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+                            for (int i=0;i<mFrame.getChildCount();i++){
+                                View tmpView =  mFrame.getChildAt(i);
+                                Log.i("xdxd","xdxd");
+            
+                            }a
+                            return true;
+                        }*/
+            @Override
+            public boolean onScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY){
+                //Log.i(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
+
+                AbstractVest aVestLocaleView = (AbstractVest) mFrame.getChildAt(INDEXLOCALPLAYER);
+                AbstractVest aVestVisitorView = (AbstractVest) mFrame.getChildAt(INDEXVISITORPLAYER);
+
+                if(aVestLocaleView.intersects(e1.getX(),e1.getY()) || aVestVisitorView.intersects(e1.getX(),e1.getY()))
+
+                             Log.i(DEBUG_TAG, "onScroll: x,y inicial " + e1.getX()+e1.getY() + " x,y event 2 "
+                                     + e2.getX()+e2.getY());
+
+
+
+
+
                 return true;
             }
 
