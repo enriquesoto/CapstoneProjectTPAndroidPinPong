@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public interface AbstractStadiumFactory {
 
-    public AbstractVest createVest(Context context,int widthDisplay,int heightDisplay);
+    public AbstractVest createVest(Context context,int widthDisplay,int heightDisplay,boolean local);
     public AbstractBall createBall(Context context,int widthDisplay,int heightDisplay);
     public AbstractField createField(Context context,int widthDisplay,int heightDisplay);
 

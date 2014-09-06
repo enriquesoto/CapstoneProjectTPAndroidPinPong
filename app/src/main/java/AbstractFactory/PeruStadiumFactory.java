@@ -7,8 +7,8 @@ import android.content.Context;
  */
 public class PeruStadiumFactory implements AbstractStadiumFactory{
     @Override
-    public PeruVest createVest(Context context,int widthDisplay,int heightDisplay) {
-        return new PeruVest(context,widthDisplay,heightDisplay);
+    public PeruVest createVest(Context context,int widthDisplay,int heightDisplay,boolean local) {
+        return new PeruVest(context,widthDisplay,heightDisplay,local);
     }
 
     @Override

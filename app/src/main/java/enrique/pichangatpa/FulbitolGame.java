@@ -26,11 +26,11 @@ public class FulbitolGame {
 
         AbstractBall aBall = stadiumFactory.createBall(aContex,widthDisplay,heightDisplay);
 
-        AbstractVest aVestLocale = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay);
+        AbstractVest aVestLocale = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay,true);
         AbstractField aField = stadiumFactory.createField(aContex,widthDisplay,heightDisplay);
-        aVestLocale.setLocale(true);
-        AbstractVest aVestVisitor = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay);
-        aVestVisitor.setLocale(false);
+        //aVestLocale.setLocale(true);
+        AbstractVest aVestVisitor = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay,false);
+        //aVestVisitor.setLocale(false);
 
 
         mFrame.addView((View) aField);  //0

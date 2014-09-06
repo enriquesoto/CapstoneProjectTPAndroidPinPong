@@ -2,8 +2,10 @@ package AbstractFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -23,6 +25,7 @@ public abstract class AbstractBall extends View{
     private final static int RANDOM = 0;
 
     private final static int SINGLE = 1;
+    private static final String TAG = "ABSTRACTBALL";
     private static int speedMode = SINGLE;
     private final static int STILL = 2;
     private float mDx, mDy;  //
@@ -43,7 +46,7 @@ public abstract class AbstractBall extends View{
 
 
         this.mContex = context;
-
+        mFrame= MainFutlbolActivity.mFrame;
 
         this.mHeightDisplay = heightDisplay;
         this.mWidthDisplay = widthDisplay;
@@ -99,9 +102,9 @@ public abstract class AbstractBall extends View{
                 int min = -3;
                 do {
                     mDx = (r.nextInt(max-min+1)+min);
-
+                    mDx = 3;
                     mDy = (r.nextInt(max-min+1)+min);
-
+                    mDy = 3;
                 }while (mDx == 0 || mDy == 0);
 
 
@@ -157,21 +160,62 @@ public abstract class AbstractBall extends View{
 
         if(isNotGoal()) return true;
 
+
         return false;
 
     }
     private boolean isNotGoal() {
 
-        // TODO - Return true if the BubbleView has exited the screen
+        // TODO - Return false if is goal
 
         if(xPos > mWidthDisplay || xPos<0){
 
-            return false;
+            mDx = -mDx;
+            return true;
         }
 
         if(yPos > mHeightDisplay || yPos<0){
             mDy = -mDy;
             return true;
+        }
+        //si choco con barritas
+
+        AbstractVest aVestLocal =(AbstractVest) mFrame.getChildAt(1);
+        AbstractVest aVestVisitor = (AbstractVest) mFrame.getChildAt(2);
+
+        if(aVestVisitor!=null){
+            //Log.i(TAG,"x axis:" + aVestVisitor.getxPos() + "y axis" + aVestVisitor.getyPos());
+            if((
+                    ( xPos >= aVestVisitor.getxPos()-aVestVisitor.getmBitmap().getWidth()/2) &&
+                            (yPos >= aVestVisitor.getyPos()- aVestVisitor.getmBitmap().getHeight()/2) &&
+                            (yPos <= aVestVisitor.getyPos()+aVestVisitor.getmBitmap().getHeight()/2)
+
+            )){
+
+                Log.i(TAG,"x axis:" + aVestVisitor.getxPos() + "y axis" + aVestVisitor.getyPos());
+                Log.i(TAG,"x pos:" + xPos + "y pos" + yPos);
+                Log.i(TAG,"vest width:" + aVestVisitor.getmBitmap().getWidth() + "height" + aVestVisitor.getmBitmap().getHeight());
+                mDx = -mDx;
+
+            }
+
+        }
+        if(aVestLocal!=null){
+            //Log.i(TAG,"x axis:" + aVestVisitor.getxPos() + "y axis" + aVestVisitor.getyPos());
+            if((
+                    ( xPos <= aVestLocal.getxPos()+aVestLocal.getmBitmap().getWidth()/2) &&
+                            (yPos >= aVestLocal.getyPos()- aVestLocal.getmBitmap().getHeight()/2) &&
+                            (yPos <= aVestLocal.getyPos()+aVestLocal.getmBitmap().getHeight()/2)
+
+            )){
+
+                Log.i(TAG,"x axis:" + aVestLocal.getxPos() + "y axis" + aVestLocal.getyPos());
+                Log.i(TAG,"x pos:" + xPos + "y pos" + yPos);
+                Log.i(TAG,"vest width:" + aVestLocal.getmBitmap().getWidth() + "height" + aVestLocal.getmBitmap().getHeight());
+                mDx = -mDx;
+
+            }
+
         }
 
         return true;
@@ -184,7 +228,7 @@ public abstract class AbstractBall extends View{
             // This work will be performed on the UI Thread
             LayoutInflater li = LayoutInflater.from(mContex);
             //mFrame = (RelativeLayout) li.inflate(R.layout.activity_main_futlbol, null);
-            mFrame= MainFutlbolActivity.mFrame;
+
 
             mFrame.post(new Runnable() {
                 @Override
@@ -214,5 +258,6 @@ public abstract class AbstractBall extends View{
             });
         }
     }
+
 
 }

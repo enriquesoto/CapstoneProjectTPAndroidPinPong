@@ -15,8 +15,8 @@ public class PeruVest extends  AbstractVest{
 
 
 
-    public PeruVest(Context context,int widthDisplay,int heightDisplay) {
-        super(context, widthDisplay,heightDisplay);
+    public PeruVest(Context context,int widthDisplay,int heightDisplay,boolean local) {
+        super(context, widthDisplay,heightDisplay,local);
 
         mBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.peruvest);
         /*

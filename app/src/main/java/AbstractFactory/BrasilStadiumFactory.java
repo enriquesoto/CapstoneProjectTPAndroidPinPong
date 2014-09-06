@@ -11,8 +11,8 @@ public class BrasilStadiumFactory implements AbstractStadiumFactory{
 
     }
     @Override
-    public AbstractVest createVest(Context context,int widthDisplay,int heightDisplay) {
-        return new BrasilVest(context,widthDisplay, heightDisplay);
+    public AbstractVest createVest(Context context,int widthDisplay,int heightDisplay,boolean local) {
+        return new BrasilVest(context,widthDisplay, heightDisplay,local);
     }
 
     @Override

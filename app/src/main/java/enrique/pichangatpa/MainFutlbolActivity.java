@@ -16,15 +16,20 @@ import AbstractFactory.AbstractVest;
 import AbstractFactory.BrasilField;
 import AbstractFactory.BrasilStadiumFactory;
 import AbstractFactory.PeruStadiumFactory;
+import android.view.ViewGroup;
 
 
-public class MainFutlbolActivity extends ActionBarActivity {
+public class MainFutlbolActivity extends ActionBarActivity  {
 
     public static RelativeLayout mFrame;
 
     public final  String DEBUG_TAG = "MAINFULTBOLACTIVITYDEBUG";
     public static final int INDEXLOCALPLAYER = 1;
     public static final int INDEXVISITORPLAYER = 2 ;
+
+    private int _xDelta;
+    private int _yDelta;
+
 
 
     private int widthDisplay;
@@ -43,9 +48,8 @@ public class MainFutlbolActivity extends ActionBarActivity {
         //widthDisplay = mFrame.getWidth();
        // heightDisplay = mFrame.getHeight();
 
-
-
         //Log.i("XD","centro x:" +this.xPos + " y: " +this.yPos);
+
 
     }
 
@@ -83,6 +87,13 @@ public class MainFutlbolActivity extends ActionBarActivity {
 
         FulbitolGame aFulbitolGame = new FulbitolGame(getApplicationContext());
         aFulbitolGame.createFulbitoGame(new PeruStadiumFactory(),mFrame,widthDisplay,heightDisplay);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 50);
+
+        View aView1 = mFrame.getChildAt(2);
+        View aView2 = mFrame.getChildAt(1);
+
+        aView1.setOnTouchListener(new myListener());
+        aView2.setOnTouchListener(new myListener());
         //Log.i("W-H","resume" +widthDisplay+"-"+heightDisplay);
 
     }
@@ -106,13 +117,29 @@ public class MainFutlbolActivity extends ActionBarActivity {
             public boolean onScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY){
                 //Log.i(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
 
-                AbstractVest aVestLocaleView = (AbstractVest) mFrame.getChildAt(INDEXLOCALPLAYER);
+                //AbstractVest aVestLocaleView = (AbstractVest) mFrame.getChildAt(INDEXLOCALPLAYER);
                 AbstractVest aVestVisitorView = (AbstractVest) mFrame.getChildAt(INDEXVISITORPLAYER);
 
-                if(aVestLocaleView.intersects(e1.getX(),e1.getY()) || aVestVisitorView.intersects(e1.getX(),e1.getY()))
+                if( aVestVisitorView.intersects(e1.getX(),e1.getY())){
 
-                             Log.i(DEBUG_TAG, "onScroll: x,y inicial " + e1.getX()+e1.getY() + " x,y event 2 "
-                                     + e2.getX()+e2.getY());
+                    Log.i(DEBUG_TAG, "onScroll: x,y inicial " + e1.getX()+e1.getY() + " x,y event 2 "
+                            + e2.getX()+","+e2.getY());
+
+                    aVestVisitorView.setPosition(e2.getX(),e2.getY());
+
+                    /*ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) aVestVisitorView.getLayoutParams();
+
+                    marginLayoutParams.leftMargin = (int) ((int) marginLayoutParams.leftMargin - distanceX);
+                    marginLayoutParams.topMargin = (int) ((int) marginLayoutParams.topMargin - distanceY);
+
+                    aVestVisitorView.requestLayout();*/
+
+
+
+                    return true;
+                }
+
+
 
 
 
@@ -140,7 +167,51 @@ public class MainFutlbolActivity extends ActionBarActivity {
 
         // TODO - delegate the touch to the gestureDetector
 
-        return mGestureDetector.onTouchEvent(event);
+        //return mGestureDetector.onTouchEvent(event);
+        return  true;
 
+    }
+
+
+
+    public class myListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            final int X = (int) motionEvent.getRawX();
+            final int Y = (int) motionEvent.getRawY();
+            AbstractVest aVest = (AbstractVest) view;
+            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (!aVest.intersects(X,Y)){
+                            return false;
+                        }
+
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        break;
+                    case MotionEvent.ACTION_POINTER_DOWN:
+                        break;
+                    case MotionEvent.ACTION_POINTER_UP:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+
+                        lParams.leftMargin = X - _xDelta;
+                        lParams.topMargin = Y - _yDelta;
+                        lParams.rightMargin = -250;
+                        lParams.bottomMargin = -250;
+
+
+                         ((AbstractVest) view).setPosition(lParams.leftMargin,lParams.topMargin);
+                      //view.setLayo                        ((AbstractVest) view).setPosition(layoutParams.leftMargin,layoutParams.topMargin);layoutParams.topMargin);
+                        break;
+                }
+
+
+            mFrame.invalidate();
+            return true;
+        }
     }
 }
