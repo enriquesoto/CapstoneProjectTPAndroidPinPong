@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#235CFF"
+    tools:context="enrique.pichangatpa.SettingsActivity">
+
+    <ImageView
+
+        android:src="@drawable/logo"
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_margin="20dp" />
+
+    <Spinner
+        android:id="@+id/mSpinnerCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:entries="@array/country_arrays"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp">
+        </Spinner>
+
+    <Spinner
+        android:id="@+id/mSpinnerOpponent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mSpinnerCountry"
+        android:entries="@array/rival_array"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp">
+    </Spinner>
+
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnSubmit"
+        android:layout_below="@+id/mSpinnerOpponent"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

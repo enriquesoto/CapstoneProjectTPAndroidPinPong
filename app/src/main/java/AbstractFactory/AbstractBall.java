@@ -38,6 +38,31 @@ public abstract class AbstractBall extends View{
     private Context mContex;
     private RelativeLayout mFrame;
 
+    private boolean running;
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public float getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(float xPos) {
+        this.xPos = xPos;
+    }
+
+    public float getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(float yPos) {
+        this.yPos = yPos;
+    }
 
     private long mRotate, mDRotate;
 
@@ -55,7 +80,9 @@ public abstract class AbstractBall extends View{
         Random aRandom = new Random();
         setSpeedAndDirection(aRandom);
         setRotation(aRandom);
+        this.running = true;
         start();
+
 
 
     }
@@ -98,13 +125,13 @@ public abstract class AbstractBall extends View{
                 // TODO - Set movement direction and speed
                 // Limit movement speed in the x and y
                 // direction to [-3..3].
-                int max = 3;
-                int min = -3;
+                int max = 8;
+                int min = -8;
                 do {
                     mDx = (r.nextInt(max-min+1)+min);
-                    mDx = 3;
+
                     mDy = (r.nextInt(max-min+1)+min);
-                    mDy = 3;
+
                 }while (mDx == 0 || mDy == 0);
 
 
@@ -122,6 +149,12 @@ public abstract class AbstractBall extends View{
         mMoverFuture = executor.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
+                //while (running){
+                    if(moveWhileIsnotGoal())
+                        postInvalidate();
+                    else
+                        stop(false);
+                //}
                 // TODO - implement movement logic.
                 // Each time this method is run the BubbleView should
                 // move one step. If the BubbleView exits the display,
@@ -129,10 +162,7 @@ public abstract class AbstractBall extends View{
                 // Otherwise, request that the BubbleView be redrawn.
 
                 //mFrame.removeView(BubbleView.this);
-                if(moveWhileIsnotGoal())
-                    postInvalidate();
-                else
-                    stop(false);
+
 
 
 
@@ -170,8 +200,11 @@ public abstract class AbstractBall extends View{
 
         if(xPos > mWidthDisplay || xPos<0){
 
-            mDx = -mDx;
-            return true;
+            //mDx = -mDx;
+
+
+
+            return false;
         }
 
         if(yPos > mHeightDisplay || yPos<0){
@@ -195,7 +228,7 @@ public abstract class AbstractBall extends View{
                 Log.i(TAG,"x axis:" + aVestVisitor.getxPos() + "y axis" + aVestVisitor.getyPos());
                 Log.i(TAG,"x pos:" + xPos + "y pos" + yPos);
                 Log.i(TAG,"vest width:" + aVestVisitor.getmBitmap().getWidth() + "height" + aVestVisitor.getmBitmap().getHeight());
-                mDx = -mDx;
+                mDx = -(mDx+mDx/100);
 
             }
 
@@ -212,7 +245,7 @@ public abstract class AbstractBall extends View{
                 Log.i(TAG,"x axis:" + aVestLocal.getxPos() + "y axis" + aVestLocal.getyPos());
                 Log.i(TAG,"x pos:" + xPos + "y pos" + yPos);
                 Log.i(TAG,"vest width:" + aVestLocal.getmBitmap().getWidth() + "height" + aVestLocal.getmBitmap().getHeight());
-                mDx = -mDx;
+                mDx = -(mDx+mDx/100);
 
             }
 

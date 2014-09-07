@@ -1,6 +1,7 @@
 package enrique.pichangatpa;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +14,17 @@ import android.widget.RelativeLayout;
 
 import AbstractFactory.AbstractStadiumFactory;
 import AbstractFactory.AbstractVest;
+import AbstractFactory.ArgentinaStadiumFactory;
 import AbstractFactory.BrasilField;
 import AbstractFactory.BrasilStadiumFactory;
+import AbstractFactory.BrasilVest;
+import AbstractFactory.ChileStadiumFactory;
 import AbstractFactory.PeruStadiumFactory;
+import AbstractFactory.PeruVest;
+
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 
 public class MainFutlbolActivity extends ActionBarActivity  {
 
@@ -29,7 +36,11 @@ public class MainFutlbolActivity extends ActionBarActivity  {
 
     private int _xDelta;
     private int _yDelta;
-
+    private ArrayList<String> mCountryList = new ArrayList<String>();
+    private String[] countryTeamArray;
+    private String[] opponentTeamArray;
+    private int countryTeamIndex;
+    private int opponentTeamIndex;
 
 
     private int widthDisplay;
@@ -37,19 +48,25 @@ public class MainFutlbolActivity extends ActionBarActivity  {
     // Gesture Detector
     private GestureDetector mGestureDetector;
 
+
+    public static enum Strings{
+        PERU,BRAZIL;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_futlbol);
         this.mFrame = (RelativeLayout) findViewById(R.id.mainFrame);
-        Context aContex = getApplicationContext();
-        //mFrame.addView(new BrasilField(aContex,R.drawable.balon3,100,100));
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            countryTeamIndex= extras.getInt("CountryTeam");
+            opponentTeamIndex = extras.getInt("OpponentTeam");
 
-        //widthDisplay = mFrame.getWidth();
-       // heightDisplay = mFrame.getHeight();
-
-        //Log.i("XD","centro x:" +this.xPos + " y: " +this.yPos);
-
+        }
+        Resources res = getResources();
+        countryTeamArray  = res.getStringArray(R.array.country_arrays);
+        opponentTeamArray = res.getStringArray(R.array.rival_array);
 
     }
 
@@ -86,8 +103,45 @@ public class MainFutlbolActivity extends ActionBarActivity  {
     private void initApplication() {
 
         FulbitolGame aFulbitolGame = new FulbitolGame(getApplicationContext());
-        aFulbitolGame.createFulbitoGame(new PeruStadiumFactory(),mFrame,widthDisplay,heightDisplay);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 50);
+        AbstractVest aVestVisitor = null;
+        AbstractStadiumFactory anAbstractStadiumFactory = null;
+        switch (countryTeamIndex){
+            case 0:
+                aVestVisitor = new PeruVest(getApplicationContext(),widthDisplay,heightDisplay,false);
+
+            break;
+            case 1:
+                aVestVisitor = new BrasilVest(getApplicationContext(),widthDisplay,heightDisplay,false);
+
+                break;
+
+            default:
+                return;
+
+        }
+
+        switch (opponentTeamIndex){
+            case 0:
+                anAbstractStadiumFactory = new PeruStadiumFactory();
+
+                break;
+            case 1:
+                anAbstractStadiumFactory = new ChileStadiumFactory();
+                break;
+            case 2:
+                anAbstractStadiumFactory = new ArgentinaStadiumFactory();
+                break;
+            case 3:
+                anAbstractStadiumFactory = new BrasilStadiumFactory();
+                break;
+            default:
+                return;
+
+        }
+
+        aFulbitolGame.createFulbitoGame(anAbstractStadiumFactory,mFrame,widthDisplay,heightDisplay,aVestVisitor);
+
+        //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 50);
 
         View aView1 = mFrame.getChildAt(2);
         View aView2 = mFrame.getChildAt(1);
@@ -96,59 +150,6 @@ public class MainFutlbolActivity extends ActionBarActivity  {
         aView2.setOnTouchListener(new myListener());
         //Log.i("W-H","resume" +widthDisplay+"-"+heightDisplay);
 
-    }
-
-    private void setupGestureDetector() {
-
-        mGestureDetector = new GestureDetector( this, new GestureDetector.SimpleOnGestureListener() {
-
-
-
-            /* @Override
-                        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
-                            for (int i=0;i<mFrame.getChildCount();i++){
-                                View tmpView =  mFrame.getChildAt(i);
-                                Log.i("xdxd","xdxd");
-            
-                            }a
-                            return true;
-                        }*/
-            @Override
-            public boolean onScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY){
-                //Log.i(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
-
-                //AbstractVest aVestLocaleView = (AbstractVest) mFrame.getChildAt(INDEXLOCALPLAYER);
-                AbstractVest aVestVisitorView = (AbstractVest) mFrame.getChildAt(INDEXVISITORPLAYER);
-
-                if( aVestVisitorView.intersects(e1.getX(),e1.getY())){
-
-                    Log.i(DEBUG_TAG, "onScroll: x,y inicial " + e1.getX()+e1.getY() + " x,y event 2 "
-                            + e2.getX()+","+e2.getY());
-
-                    aVestVisitorView.setPosition(e2.getX(),e2.getY());
-
-                    /*ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) aVestVisitorView.getLayoutParams();
-
-                    marginLayoutParams.leftMargin = (int) ((int) marginLayoutParams.leftMargin - distanceX);
-                    marginLayoutParams.topMargin = (int) ((int) marginLayoutParams.topMargin - distanceY);
-
-                    aVestVisitorView.requestLayout();*/
-
-
-
-                    return true;
-                }
-
-
-
-
-
-
-
-                return true;
-            }
-
-        });
     }
 
     private void updateSizeInfo() {
@@ -160,7 +161,7 @@ public class MainFutlbolActivity extends ActionBarActivity  {
     @Override
     protected void onResume() {
            super.onResume();
-        setupGestureDetector();
+
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {

@@ -12,24 +12,35 @@ import AbstractFactory.AbstractVest;
 /**
  * Created by enrique on 30/08/14.
  */
-public class FulbitolGame {
+public class FulbitolGame extends  Thread{
 
-
+    private boolean running;
     private Context aContex;
+    private AbstractBall aBall;
 
     FulbitolGame(Context aContex){
         this.aContex = aContex;
     }
 
-    public void createFulbitoGame(AbstractStadiumFactory stadiumFactory,
-                                  RelativeLayout mFrame, int widthDisplay, int heightDisplay){
+    public boolean isRunning() {
+        return running;
+    }
 
-        AbstractBall aBall = stadiumFactory.createBall(aContex,widthDisplay,heightDisplay);
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public void createFulbitoGame(AbstractStadiumFactory stadiumFactory,
+                                  RelativeLayout mFrame, int widthDisplay, int heightDisplay, AbstractVest aVestVisitor){
+
+        aBall = stadiumFactory.createBall(aContex,widthDisplay,heightDisplay);
+
+        //AbstractBall aBall2 = stadiumFactory.createBall(aContex,widthDisplay,heightDisplay);
 
         AbstractVest aVestLocale = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay,true);
         AbstractField aField = stadiumFactory.createField(aContex,widthDisplay,heightDisplay);
         //aVestLocale.setLocale(true);
-        AbstractVest aVestVisitor = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay,false);
+        //aVestVisitor = stadiumFactory.createVest(aContex,widthDisplay,heightDisplay,false);
         //aVestVisitor.setLocale(false);
 
 
@@ -38,5 +49,19 @@ public class FulbitolGame {
         mFrame.addView(aVestVisitor); // 2 index visitante
         mFrame.addView(aBall); //3
 
+        //mFrame.addView(aBall2); //4
+        aVestLocale.start();
+
+
+
+    }
+    @Override
+    public void run(){
+
+        while(running){
+            if(aBall == null){
+                running = false;
+            }
+        }
     }
 }

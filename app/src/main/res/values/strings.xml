@@ -4,5 +4,28 @@
     <string name="app_name">PichangaTPA</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="PICHANGA">PICHANGA</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="bttnPlay">PLAY</string>
+    <string name="settings">SETTINGS</string>
+    <string name="quit">EXIT</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="btnSubmit">SUBMIT</string>
+    <string-array name="country_arrays">
+        <item>Peru</item>
+        <item>Brazil</item>
+    </string-array>
+    <string-array name="rival_array">
+        <item>Peru</item>
+        <item>Chile</item>
+        <item>Argentina</item>
+        <item>Brazil</item>
+    </string-array>
+
+
+
+
 
 </resources>

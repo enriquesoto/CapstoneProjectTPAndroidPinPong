@@ -13,21 +13,15 @@ import enrique.pichangatpa.R;
 public class BrasilVest extends AbstractVest {
 
 
-    private float xPos,yPos;
-    private final Paint mPainter= new Paint();
-    private boolean isLocal;
 
 
     public BrasilVest(Context context,int widthDisplay,int heightDisplay,boolean local){
         super(context,widthDisplay,heightDisplay,local);
 
-        mBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.brasilvest);
+        mBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.vestbrasil);
+
+        this.mDy = 5;
 
 
     }
-    @Override
-    protected synchronized void onDraw(Canvas canvas) {
-        canvas.drawBitmap(mBitmap, xPos, yPos, mPainter);
-    }
-
 }
