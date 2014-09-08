@@ -39,10 +39,10 @@ public class PeruBall extends AbstractBall{
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         canvas.drawBitmap(mBitmap,xPos-mBitmap.getWidth()/2,yPos-mBitmap.getHeight()/2,mPainter);
-        canvas.drawLine(mWidthDisplay/2,0,mWidthDisplay/2,mHeightDisplay,mPainter);
+        /*canvas.drawLine(mWidthDisplay/2,0,mWidthDisplay/2,mHeightDisplay,mPainter);
         canvas.drawLine(0,mHeightDisplay/2,mWidthDisplay,mHeightDisplay/2,mPainter);
         canvas.drawLine(xPos,0,xPos,mHeightDisplay,mPainter);
-        canvas.drawLine(0,yPos,mWidthDisplay,yPos,mPainter);
+        canvas.drawLine(0,yPos,mWidthDisplay,yPos,mPainter);*/
     }
 
 

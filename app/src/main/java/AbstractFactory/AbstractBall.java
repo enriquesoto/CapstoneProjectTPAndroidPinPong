@@ -1,7 +1,11 @@
 package AbstractFactory;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +20,15 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import enrique.pichangatpa.MainFutlbolActivity;
+import enrique.pichangatpa.R;
+
+
+import android.content.Context;
 
 /**
  * Created by enrique on 30/08/14.
  */
-public abstract class AbstractBall extends View{
+public abstract class AbstractBall extends View {
 
     private final static int RANDOM = 0;
 
@@ -37,6 +45,15 @@ public abstract class AbstractBall extends View{
     private static final int REFRESH_RATE = 20;
     private Context mContex;
     private RelativeLayout mFrame;
+    private AudioManager mAudioManager;
+    protected int mSoundID;
+
+    protected float mStreamVolume;
+
+    private final static int MAX_STREAMS = 10; //mio
+
+
+    private SoundPool mSoundPool;
 
     private boolean running;
 
@@ -81,6 +98,24 @@ public abstract class AbstractBall extends View{
         setSpeedAndDirection(aRandom);
         setRotation(aRandom);
         this.running = true;
+
+        mAudioManager = (AudioManager) mContex.getSystemService(android.content.Context.AUDIO_SERVICE);
+
+        mStreamVolume = (float) mAudioManager
+                .getStreamVolume(AudioManager.STREAM_MUSIC)
+                / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mSoundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC,0);
+
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() { // sellama cuando el sonido se carga totalmente
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                //if (status == 0)
+                    //setupGestureDetector();
+            }
+        });
+        //mSoundID = mSoundPool.load(this,mContex.getResources().openRawResource(R.raw.terminator),1);
+        mSoundID = mSoundPool.load(mContex,R.raw.terminator,1);
         start();
 
 
@@ -152,8 +187,10 @@ public abstract class AbstractBall extends View{
                 //while (running){
                     if(moveWhileIsnotGoal())
                         postInvalidate();
-                    else
-                        stop(false);
+                    else{
+                        stop(true);
+                    }
+
                 //}
                 // TODO - implement movement logic.
                 // Each time this method is run the BubbleView should
@@ -201,7 +238,6 @@ public abstract class AbstractBall extends View{
         if(xPos > mWidthDisplay || xPos<0){
 
             //mDx = -mDx;
-
 
 
             return false;
@@ -278,10 +314,7 @@ public abstract class AbstractBall extends View{
                         // TODO - If the bubble was popped by user,
                         // play the popping sound
 
-                        //	mSoundPool.play(mSoundId, (float) mVolume / mVolumeMax,
-                        //	(float) mVolume / mVolumeMax, 1, 0, 1.0f);
-
-                        //mSoundPool.play(mSoundID, (float)mStreamVolume , (float)mStreamVolume, 1, 0,1.0f);
+                        mSoundPool.play(mSoundID, (float)mStreamVolume , (float)mStreamVolume, 1, 0,1.0f);
 
                     }
 

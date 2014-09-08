@@ -122,17 +122,17 @@ public class MainFutlbolActivity extends ActionBarActivity  {
 
         switch (opponentTeamIndex){
             case 0:
-                anAbstractStadiumFactory = new PeruStadiumFactory();
+                anAbstractStadiumFactory = PeruStadiumFactory.getInstance();
 
                 break;
             case 1:
-                anAbstractStadiumFactory = new ChileStadiumFactory();
+                anAbstractStadiumFactory = ChileStadiumFactory.getInstance();
                 break;
             case 2:
-                anAbstractStadiumFactory = new ArgentinaStadiumFactory();
+                anAbstractStadiumFactory = ArgentinaStadiumFactory.getInstance();
                 break;
             case 3:
-                anAbstractStadiumFactory = new BrasilStadiumFactory();
+                anAbstractStadiumFactory = BrasilStadiumFactory.getInstance();
                 break;
             default:
                 return;

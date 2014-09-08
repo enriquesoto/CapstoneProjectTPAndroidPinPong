@@ -1,6 +1,8 @@
 package enrique.pichangatpa;
 
 import android.content.Context;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -14,6 +16,7 @@ import AbstractFactory.AbstractVest;
  */
 public class FulbitolGame extends  Thread{
 
+    private static final String TAG = "FulbitoGame" ;
     private boolean running;
     private Context aContex;
     private AbstractBall aBall;
@@ -49,9 +52,11 @@ public class FulbitolGame extends  Thread{
         mFrame.addView(aVestVisitor); // 2 index visitante
         mFrame.addView(aBall); //3
 
+
+
         //mFrame.addView(aBall2); //4
         aVestLocale.start();
-
+        //this.run();
 
 
     }

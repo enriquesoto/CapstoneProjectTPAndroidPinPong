@@ -7,7 +7,9 @@ import android.content.Context;
  */
 public class ArgentinaStadiumFactory implements AbstractStadiumFactory{
 
-    public ArgentinaStadiumFactory(){
+    private static ArgentinaStadiumFactory argentinaStadium = null;
+
+    private ArgentinaStadiumFactory(){
 
     }
     @Override
@@ -24,4 +26,11 @@ public class ArgentinaStadiumFactory implements AbstractStadiumFactory{
     public AbstractField createField(Context context,int widthDisplay,int heightDisplay) {
         return new ArgentinaField(context, widthDisplay, heightDisplay);
     }
+
+    public static ArgentinaStadiumFactory getInstance(){
+        if(argentinaStadium ==null )
+            argentinaStadium = new ArgentinaStadiumFactory();
+        return argentinaStadium;
+    }
+
 }

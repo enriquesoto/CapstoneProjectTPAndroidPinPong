@@ -13,6 +13,8 @@
     <string name="quit">EXIT</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="btnSubmit">SUBMIT</string>
+    <string name="tu_equipo">Your Team</string>
+    <string name="rival_team">Rival Team</string>
     <string-array name="country_arrays">
         <item>Peru</item>
         <item>Brazil</item>

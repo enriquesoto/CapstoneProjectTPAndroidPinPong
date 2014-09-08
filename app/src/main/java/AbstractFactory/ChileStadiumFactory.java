@@ -7,7 +7,10 @@ import android.content.Context;
  */
 public class ChileStadiumFactory implements AbstractStadiumFactory{
 
-    public ChileStadiumFactory(){
+    private static ChileStadiumFactory chileStadium =  null;
+
+
+    private ChileStadiumFactory(){
 
     }
     @Override
@@ -24,4 +27,11 @@ public class ChileStadiumFactory implements AbstractStadiumFactory{
     public AbstractField createField(Context context,int widthDisplay,int heightDisplay) {
         return new ChileField(context, widthDisplay, heightDisplay);
     }
+
+    public static ChileStadiumFactory getInstance(){
+        if(chileStadium ==null )
+            chileStadium = new ChileStadiumFactory();
+        return chileStadium;
+    }
+
 }

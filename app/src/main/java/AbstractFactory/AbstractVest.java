@@ -112,11 +112,11 @@ public abstract class AbstractVest extends View{
 
 
         canvas.drawBitmap(mBitmap,xPos-mBitmap.getWidth()/2,yPos-mBitmap.getHeight()/2,mPainter);
-        canvas.drawLine(mWidthDisplay/2,0,mWidthDisplay/2,mHeightDisplay,mPainter);
+        /*canvas.drawLine(mWidthDisplay/2,0,mWidthDisplay/2,mHeightDisplay,mPainter);
         canvas.drawLine(0,mHeightDisplay/2,mWidthDisplay,mHeightDisplay/2,mPainter);
         canvas.drawLine(xPos,0,xPos,mHeightDisplay,mPainter);
         canvas.drawLine(0,yPos,mWidthDisplay,yPos,mPainter);
-        canvas.drawRoundRect(new RectF(xPos-mBitmap.getWidth()/2,yPos-mBitmap.getHeight()/2,xPos+mBitmap.getWidth()/2,yPos+mBitmap.getHeight()/2),10,10,mPainter);
+        canvas.drawRoundRect(new RectF(xPos-mBitmap.getWidth()/2,yPos-mBitmap.getHeight()/2,xPos+mBitmap.getWidth()/2,yPos+mBitmap.getHeight()/2),10,10,mPainter);*/
 
 
         //Log.i(TAG,"POSITION x"+this.xPos+"Y:"+this.yPos);
